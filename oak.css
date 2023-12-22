@@ -11,7 +11,7 @@ body {
   }
   @font-face {
     font-family: fontFont;
-    src: url(tf2.ttf);
+    src: url(TF2.ttf);
   }
   a:link {
     color: green;
