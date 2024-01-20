@@ -17,6 +17,10 @@
     color: var(--col-neutral);
 }
 
+body {
+    background-image: url("https://files.catbox.moe/k4f8ce.png");
+  }
+
 @font-face {
     font-family: "TF2";
     src: url(TF2.ttf);
