@@ -6,6 +6,7 @@ const servers = [
     ["158.101.122.160:8123", "hl2dm"],
     ["150.136.164.5:27015", "hl2dm"],
     ["158.101.122.160:7200", "minecraft"],
+    ["158.101.122.160:17652", "mincraft"]
   ];
 
 function fetchServerData(server) {
