@@ -1,5 +1,5 @@
 body {
-  background-image: url("https://nypost.com/wp-content/uploads/sites/2/2024/06/u-s-president-joe-biden-83790258.jpg?resize=1024,687&quality=75&strip=all");
+  background-image: url("https://files.catbox.moe/k4f8ce.png");
 }
 
 @font-face {
@@ -46,15 +46,11 @@ h1 {
   letter-spacing: 2px;
 }
 
-p {
-  font-family: smallFont;
-}
-
 .small {
   font-family: smallFont;
 }
 
-h2, h3 {
+h2 {
   font-family: fontFont;
 }
 
@@ -120,21 +116,16 @@ p {
   font-weight: bold;
   }
 
-  @keyframes rainbow{
+  @keyframes rainbow-bg{
   100%,0%{
-    color: #3494E6;
+    background-color: #3494E6;
   }
   25%,75%{
-    color: #EC6EAD;
+    background-color: #EC6EAD;
   }
   50%{
-    color: #ec6e6e;
+    background-color: #ec6e6e;
   }
-  }
-
-  .gay{
-    animation: rainbow 2.5s linear;
-		animation-iteration-count: infinite;
   }
 
   .close:hover,
@@ -155,39 +146,3 @@ p {
   }
 
   .modal-body {padding: 2px 16px;}
-
-  details{
-    background-color: #303030;
-    color: #fff;
-    font-size: 1.5rem;
-  }
-  
-  summary {
-    font-family: fontFont;
-    padding: .5em 1.3rem;
-    list-style: none;
-    display: flex;
-    justify-content: space-between;  
-    transition: height 1s ease;
-  }
-  
-  summary::-webkit-details-marker {
-    display: none;
-  }
-  
-  summary:after{
-    content: "\002B";
-  }
-  
-  details[open] summary {
-      border-bottom: 1px solid #aaa;
-      margin-bottom: .5em;
-  }
-  
-  details[open] summary:after{
-    content: "\00D7";
-  }
-  
-  details[open] div{
-    padding: .5em 1em;
-  }
