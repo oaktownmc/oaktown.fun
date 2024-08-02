@@ -1,0 +1,86 @@
+* {
+    font-family: "TF2 Secondary";
+    font-size: 25px;
+    padding-bottom: 5px;
+
+    /* VARIABLES */
+    --col-bg:       #2a2725;
+    --col-fg:       #3c372f;
+    --col-level:    #746b5d;
+    --col-upside:   #94c5f5;
+    --col-downside: #f93c3c;
+    --col-neutral:  #e4dcc4;
+    --col-itemset:  #ddfb09;
+
+    --col-unique:   #fed900;
+
+    color: var(--col-neutral);
+}
+
+body {
+    background-image: url("https://files.catbox.moe/k4f8ce.png");
+  }
+
+@font-face {
+    font-family: "TF2";
+    src: url(TF2.ttf);
+}
+@font-face {
+    font-family: "TF2 Build";
+    src: url(TF2Build.ttf);
+}
+@font-face {
+    font-family: "TF2 Secondary";
+    src: url(TF2Secondary.ttf);
+}
+
+.center-div {
+    margin: auto;
+    width: 50%;
+}
+
+.center-text {
+    text-align: center;
+}
+
+.red    { color: red;    }
+.orange { color: orange; }
+.yellow { color: yellow; }
+.green  { color: green;  }
+.blue   { color: blue;   }
+.violet { color: violet; }
+
+
+h1 {
+    font-family: "TF2 Build";
+    font-size: 75px;
+
+    margin: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+
+    color: var(--col-unique);
+}
+
+h2 {
+    font-family: "TF2";
+    font-size: 40px;
+    margin: 0px;
+}
+
+a {
+    color: var(--col-level);
+}
+
+code {
+    font-family: monospace;
+}
+
+.stroke
+{
+    text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;  
+}

@@ -1,0 +1,59 @@
+body {
+  background-image: url("https://files.catbox.moe/k4f8ce.png");
+}
+
+@font-face {
+  font-family: bigFont;
+  src: url(tf2build.ttf);
+}
+
+@font-face {
+  font-family: smallFont;
+  src: url(tf2sec.ttf);
+}
+
+@font-face {
+  font-family: fontFont;
+  src: url(TF2.ttf);
+}
+
+a:link {
+  color: green;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+a:visited {
+  color: green;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+a:hover {
+  color: yellow;
+  background-color: transparent;
+  text-decoration: underline;
+}
+
+a:active {
+  color: yellow;
+  background-color: transparent;
+  text-decoration: underline;
+}
+
+h1 {
+  font-family: bigFont;
+  letter-spacing: 2px;
+}
+
+.small {
+  font-family: smallFont;
+}
+
+h2 {
+  font-family: fontFont;
+}
+
+.medic {
+  font-family: fontFont;
+}
