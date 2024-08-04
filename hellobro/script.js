@@ -3,7 +3,7 @@ const servers = [
     ["45.20.117.13:25567", "minecraft"],
     ["45.20.117.13:25565", "minecraft"],
     ["85.239.234.9:27015", "hl2dm"],
-    ["85.239.234.9:28015", "hl2dm"]
+    ["85.239.234.9:28015", "tf2"]
   ];
 
 function fetchServerData(server) {
