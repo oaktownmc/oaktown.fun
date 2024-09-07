@@ -1,111 +1,188 @@
-const servers = [
-    // OAK servers :D
-    ["45.20.117.13:25566", "minecraft"],
-    //["45.20.117.13:7777", "terraria"],
-    ["45.20.117.13:25567", "minecraft"],
-    ["45.20.117.13:25565", "minecraft"],
-    ["45.20.117.13:18754", "minecraft"],
-    ["132.226.51.90:27015", "hl2dm"],
-    ["45.20.117.13:28026", "hl2dm"],
-    ["45.20.117.13:49872", "tf2"]
-  ];
+// list of servers
+const serverList = [
+	{
+		"id": "pf2Sandbox",
+		"name": "OAK TOWN | PF2 SANDBOX",
+		"ip": "132.226.51.90:27015",
+		"game": "hl2dm",
+		"overrideGame": "pf2"
+	},
+	{
+		"id": "teamFortress2",
+		"name": "OAK TOWN | TF2",
+		"ip": "45.20.117.13:49872",
+		"game": "tf2"
+	},
+	{
+		"id": "garrysMod",
+		"name": "OAK TOWN | GARRYS MOD",
+		"ip": "45.20.117.13:28026",
+		"game": "hl2dm",
+		"overrideGame": "gmod"
+	},
+	{
+		"id": "minecraftSurvival",
+		"name": "OAK TOWN | SURVIVAL",
+		"ip": "45.20.117.13:25565",
+		"overrideMap": "oaktown",
+		"game": "minecraft"
+	},
+	{
+		"id": "minecraftAnarchy",
+		"name": "OAK TOWN | ANARCHY",
+		"ip": "45.20.117.13:25566",
+		"overrideMap": "oaktown_anarchy",
+		"game": "minecraft"
+	},
+	{
+		"id": "minecraftCreative",
+		"name": "OAK TOWN | CREATIVE",
+		"ip": "45.20.117.13:25567",
+		"overrideMap": "oaktown_creative",
+		"game": "minecraft"
+	},
+	{
+		"id": "minecraftCreate",
+		"name": "OAK TOWN | CREATE MOD",
+		"ip": "45.20.117.13:18754",
+		"overrideMap": "oaktown_create",
+		"game": "minecraft"
+	},
+];
 
-function fetchServerData(server) {
-    const serverAddress = server[0]
-    const serverGame = server[1]
-    const url = `https://api.raccoonlagoon.com/v1/server-info?ip=${serverAddress}&g=${serverGame}`;
-    serverElement = document.createElement("div")
-    fetch(url)
-        .then(response => response.json())
-        .then(data => displayServerData(data, server[1]))
-        .catch(error => console.error("Error fetching server data:", error));
+// list of Steam games
+const steamGames = [
+	"tf2",
+	"tf2classic",
+	"of",
+	"pf2",
+	"tfport",
+	"goonsquad",
+	"tfc",
+	"hldm",
+	"dmc",
+	"svencoop",
+	"gmod"
+];
+
+// general variables
+var resources = "../resources";
+
+// preload images
+new Image().src = resources+"/status/offline.png";
+new Image().src = resources+"/status/online.png";
+new Image().src = resources+"/games/unknown.png";
+new Image().src = resources+"/maps/unknown.png";
+
+// loop through every server
+document.addEventListener('DOMContentLoaded', (event) => {
+	serverList.forEach(server => listServer(server));
+});
+
+// generate dummy server entries
+function listServer(server) {
+	// for dummy entry
+	const serverId = server.id;
+	const serverName = server.name;
+	const serverGame = server.overrideGame ? server.overrideGame : server.game;
+	// REDCHANIT: motd handling
+	const serverMotd = server.motd;
+
+	// jotting down now, displaying later
+	const serverIp = server.ip;
+	const serverOverrideMap = server.overrideMap;
+	const serverDynmap = server.dynmap;
+
+	// create entry element
+	const container = document.getElementById("servers");
+	const serverElement = document.createElement("div");
+	serverElement.id = serverId;
+	serverElement.className = "server";
+
+	// populate entry with temp info
+	// REDCHANIT: hide server info button if motd doesn't exist
+	serverElement.innerHTML =
+	`
+		<div class="serverTitle">
+			<img class="serverStatus" src="${resources}/status/offline.png" draggable="false" />
+			<img class="serverGame" src="${resources}/games/${serverGame}.png" onerror="this.onerror=null; this.src='${resources}/games/unknown.png';" draggable="false" />
+			<div>${serverName}</div>
+		</div>
+		
+		<div class="serverContent">
+			<img class="serverMap" src="${resources}/maps/unknown.png" draggable="false" />
+			<div class="serverMapName"><b>Map:</b> ---</div>
+			<div class="serverPlayers"><b>Players:</b> ---</div>
+		</div>
+
+		<div class="serverButtons">
+			${serverMotd ? `<a href="${serverMotd}" class="serverButton serverInfo" style="width:100%;" draggable="false"><div class="info"></div></a>` : `<a class="serverButton serverInfo" style="width:100%;" draggable="false">...</a>`}
+		</div>
+	`
+
+	container.appendChild(serverElement);
+
+	// fetch server data from api
+	const url = `https://api.raccoonlagoon.com/v1/server-info?ip=${serverIp}&g=${server.game}`;
+	fetch(url)
+		.then(response => response.json())
+		.then(data => displayServerData(data, serverId, serverGame, serverMotd, serverOverrideMap, serverDynmap))
+		.catch(error => console.error("Error fetching server data:", error));
 }
 
-function htmlSanitize(str) {
-    let ret = String(str)
-        .replace("&", "&amp;")    
-        .replace("<", "&lt;")
-        .replace(">", "&gt;");
-    return ret
+// display server data once fetched
+function displayServerData(data, serverId, serverGame, serverMotd, serverOverrideMap, serverDynmap) {
+	// REDCHANIT: regex for quake3
+	const serverMap = (serverOverrideMap ? serverOverrideMap : data.currentMap.replace(/^(?<=)game\/mp\/*/, ""));
+	const serverElement = document.getElementById(serverId);
+	const canConnect = steamGames.includes(serverGame);
+
+	// set updated server info
+	// server returned data, so it's online
+	serverElement.getElementsByClassName("serverStatus")[0].src = resources+"/status/online.png";
+
+	serverElement.getElementsByClassName("serverStatus")[0].classList.add("asyncImage");
+	serverElement.getElementsByClassName("serverMap")[0].dataset.src = resources+"/maps/"+serverGame+"/"+serverMap+".png";
+
+	serverElement.getElementsByClassName("serverMapName")[0].innerHTML = "<b>Map:</b> "+serverMap;
+	serverElement.getElementsByClassName("serverMapName")[0].title = serverMap;
+
+	// server player list
+	// only show the table if there are players
+	const playerListTable = data.humanData.length > 0 ?
+	`${data.humanData.map(player => {
+		return `${player.name}`;
+	}).join("\n")}` : "";
+
+	// only show bots if there are any
+	const numOfBots = data.numBots > 0 ? ` (${data.numBots} Bots)` : "";
+	// player count, hovering when players are online shows a list
+	// TODO: title attribute not mobile friendly
+	serverElement.getElementsByClassName("serverPlayers")[0].innerHTML = "<b>Players:</b> "+data.numHumans+"/"+data.maxClients+" "+numOfBots;
+	serverElement.getElementsByClassName("serverPlayers")[0].title = playerListTable;
+	if (data.numHumans > 0) {
+		serverElement.getElementsByClassName("serverPlayers")[0].classList.add("tooltip");
+	}
+
+	// server buttons, done a little differently because of how dynamic they can be
+	// servers that host a Steam game will replace the copy ip button with a connect button
+	// REDCHANIT: hide server info button if motd doesn't exist
+	serverElement.getElementsByClassName("serverButtons")[0].innerHTML =
+	`
+		<a ${canConnect ? `href="steam://connect/${data.serverIP}"` : ""} ${canConnect ? "" : `onclick="navigator.clipboard.writeText('${data.serverIP}');"`} class="serverButton serverConnect" draggable="false">${canConnect ? "Connect" : "Copy IP"}</a>
+		${serverDynmap ? `<a href="${serverDynmap}" class="serverButton serverDynmap" draggable="false"><div class="dynmap"></div></a>` : ""}
+		${serverMotd ? `<a href="${serverMotd}" class="serverButton serverInfo" draggable="false"><div class="info"></div></a>` : ""}
+	`;
+
+	// asynchronously load map images, not replacing if they can't be found
+	(() => {
+		"use strict";
+		const mapElement = serverElement.getElementsByClassName("serverMap")[0];
+		const img = new Image();
+		img.src = mapElement.dataset.src;
+		img.onload = () => {
+			mapElement.classList.remove('asyncImage');
+			mapElement.src = mapElement.dataset.src;
+		};
+	})();
 }
-
-const SECONDS_IN_DAY = 24 * 60 * 60;
-const SECONDS_IN_HOUR = 60 * 60;
-const SECONDS_IN_MINUTE = 60;
-
-function convertTime(time) {
-    const days = Math.floor(time / SECONDS_IN_DAY);
-    const hours = Math.floor((time % SECONDS_IN_DAY) / SECONDS_IN_HOUR);
-    const minutes = Math.floor((time % SECONDS_IN_HOUR) / SECONDS_IN_MINUTE);
-    const seconds = Math.floor(time % SECONDS_IN_MINUTE);
-
-    let formattedTime = "";
-
-    // only show applicable time units
-    if (days > 0) formattedTime += `${days}d `;
-    if (hours > 0) formattedTime += `${hours}h `;
-    if (minutes > 0 || hours > 0) formattedTime += `${minutes}m `;
-
-    formattedTime += `${seconds.toString()}s`; // add seconds
-    return formattedTime; // return formatted time string
-}
-
-function displayServerData(data, game) {
-    console.log(game)
-    const container = document.getElementById("servers");
-    const serverElement = document.createElement("div");
-
-    
-    const cleanServerName = data.serverName?.replace(/ï¿½./g, "");
-    
-    const stringifiedBots = data.numBots > 0 ? ` (${data.numBots} bots)` : "";
-    
-    const playerMapFunc = player => {
-        return `<tr><td>${player.name}</td><td>${player.score}</td><td>${convertTime(player.time)}</td></tr>`;
-    };
-    
-    const playerListTable = data.numHumans > 0 ? `
-    <table id="playerListTable">
-    <tr>
-    <th>Name</th>
-    <th>Score</th>
-    <th>Time Played</th>
-    </tr>
-    ${data.humanData.map(playerMapFunc).join("")}
-    </table>` : "";
-    
-    serverElement.style.position = "relative";
-    
-    // only show button if server isnt full & server isn't minecraft
-    const connectButton = document.createElement("button");
-    connectButton.textContent = "Connect";
-    connectButton.style.position = 'absolute';
-    connectButton.style.right = '0px';
-    connectButton.style.bottom = '0px';
-    let title = '';
-    if (game !== "minecraft" && data.numHumans < data.maxClients) {
-        title = `steam://connect/${data.serverIP}`;
-        connectButton.onclick = () => {
-            window.open(title);
-        };
-    } else {
-        connectButton.disabled = true;
-        title = "Connecting is disabled for unsupported games, please connect manually.";
-    }
-    connectButton.title = title;
-    
-    serverElement.innerHTML = `
-    <h5>${htmlSanitize(game.toUpperCase())} SERVER</h5>
-    <b><h3>${htmlSanitize(cleanServerName)}</h3></b>
-    <p><b>IP:</b> ${htmlSanitize(data.serverIP)}</p>
-    <p><b>Current Map:</b> ${htmlSanitize(data.currentMap)}</p>
-    <p><b>Players:</b> ${htmlSanitize(data.numHumans)}/${htmlSanitize(data.maxClients)} ${htmlSanitize(stringifiedBots)}</p>
-    ${playerListTable}
-    <br><br>
-    `;
-    
-    serverElement.appendChild(connectButton);
-    container.appendChild(serverElement);
-}
-
-servers.forEach(server => fetchServerData(server));

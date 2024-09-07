@@ -97,3 +97,221 @@ a:link {
 a:visited {
   color: rgb(0, 82, 0);
 }
+
+/* PAGE - SERVERS
+stolen from redchanit
+*/
+
+#servers {
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	flex-wrap:wrap;
+}
+
+.server {
+	width:calc(33% - 10px);
+	max-width:320px;
+	height:260px;
+	margin:5px;
+	padding:8px;
+	position:relative;
+	display:inline-flex;
+	flex-direction:column;
+	background:linear-gradient(0deg,#79472a,#81613c);
+	color:#FFFFFF !important;
+	border-radius:10px;
+	font-size:20px;
+	box-sizing: border-box;
+}
+
+.server * {
+	box-sizing: border-box;
+}
+
+@media (max-width:1200px) {
+	.server {
+		width:100% !important;
+	}
+}
+
+.server b {
+	text-decoration:unset;
+}
+
+.gameMode .server {
+	width:100% !important;
+}
+
+.serverTitle {
+	display:flex;
+	height:100%;
+	align-items:center;
+	text-shadow:1px 1px #000000, 2px 2px #000000;
+  font-family:tf2build
+}
+
+.serverStatus {
+	width:16px;
+	height:16px;
+	margin-right:5px;
+}
+
+.serverGame {
+	min-width:32px;
+	width:32px;
+	min-height:32px;
+	height:32px;
+	margin-right:10px;
+}
+
+.serverContent {
+	margin-top:8px;
+	position:relative;
+	text-shadow:1px 1px #000000, 2px 2px #000000;
+  font-family:tf2sec
+}
+
+.serverMap {
+	max-width:100%;
+	max-height:190px;
+	border-radius:5px;
+	opacity:0.75;
+	mask-image:linear-gradient(to bottom, rgb(0, 0, 0), rgba(0,0,0,0));
+	object-fit:cover;
+	vertical-align:top;
+}
+
+@media (max-width:1200px) {
+	.serverMap {
+		width:100%;
+	}
+}
+
+.gameMode .serverMap {
+	width:100% !important;
+}
+
+.serverMapName {
+	max-width:calc(100% - 16px);
+	position:absolute;
+	top:3px;
+	left:8px;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+}
+
+.serverPlayers {
+	max-width:calc(100% - 16px);
+	position:absolute;
+	bottom:8px;
+	left:8px;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+}
+
+.tooltip {
+	border-bottom:2px dotted #FFFFFF;
+	margin-bottom:-2px;
+}
+
+.serverButtons {
+	display:flex;
+	align-items:center;
+}
+
+.serverButton {
+  display: inline-block;
+  outline: 0;
+  border: 0;
+  cursor: pointer;
+  font-weight: 600;
+  color: #fff;
+  font-size: 14px;
+  height: 38px;
+  padding: 8px 24px;
+  border-radius: 50px;
+  background-image: linear-gradient(0deg,#612400,#9c5f3c);
+  box-shadow: 0 4px 11px 0 rgb(37 44 97 / 15%), 0 1px 3px 0 rgb(93 100 148 / 20%);
+  transition: all .2s ease-out;
+  :hover{
+      box-shadow: 0 8px 22px 0 rgb(37 44 97 / 15%), 0 4px 6px 0 rgb(93 100 148 / 20%);
+  }
+  font-family: tf2;
+  font-size: large;
+  text-shadow:1px 1px #000000, 2px 2px #000000;
+}
+
+.serverButton:last-of-type {
+	margin-right:0px !important;
+}
+
+.serverConnect {
+	width: 100%;
+	cursor:pointer;
+}
+
+.gameMode .serverConnect, .gameMode .serverDynmap {
+	display:none !important;
+}
+
+@media (max-width:850px) {
+	.serverConnect {
+		display:none !important;
+	}
+}
+
+.serverInfo, .serverDynmap {
+	min-width:40px;
+}
+
+.gameMode .serverInfo {
+	width: 100% !important;
+}
+
+@media (max-width:850px) {
+	.serverInfo, .serverDynmap {
+		width: 100% !important;
+	}
+}
+
+.info {
+	min-width:24px;
+	min-height:24px;
+	background:url(../images/info.png) no-repeat;
+	background-size:24px;
+}
+
+.dynmap {
+	min-width:24px;
+	min-height:24px;
+	background:url(../images/dynmap.png) no-repeat;
+	background-size:24px;
+}
+
+a.serverButton {
+  text-decoration: none;
+}
+
+a.serverButton:hover {
+	text-shadow:0px 0px 5px currentColor;
+}
+
+a.serverButton:hover .info, a.serverButton:hover .dynmap {
+	filter:drop-shadow(0px 0px 3px currentColor);
+}
+
+a.serverButton:active {
+	filter:brightness(0.85);
+}
+
+a.serverButton:link {
+  color: rgb(255, 255, 255);
+}
+
+/* visited link */
+a.serverButton:visited {
+  color: rgb(255, 255, 255);
+}
