@@ -1,9 +1,14 @@
+:root {
+  --topnav-height: 27px;
+}
+
 .topnav {
   overflow: hidden;
   background-color: #333;
   width: max-content;
   margin-inline: auto;
   border-radius: 10px;
+  margin: 10px;
 }
 
 .topnav a {
@@ -35,6 +40,10 @@
   padding: 7px 9px;
   background-color: #045faa;
   color: white;
+}
+
+.topnav a.logo img {
+  height: var(--topnav-height);
 }
 
 /* mouse over link */
