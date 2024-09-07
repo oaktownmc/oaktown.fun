@@ -1,0 +1,17 @@
+
+body {
+  margin: 0;
+}
+
+html,body{ 
+	background:#000000;
+}
+
+#particles-js {
+  background: black;
+  height: 100vh;
+}
+
+#particles-js canvas {
+  position: absolute;
+}

@@ -1,0 +1,72 @@
+@font-face {
+    font-family: tf2;
+    src: url(../fonts/TF2.woff) format('woff'),
+         url(../fonts/TF2.woff2) format('woff2');
+  }
+  
+  @font-face {
+    font-family: tf2sec;
+    src: url(../fonts/TF2Secondary.woff) format('woff'),
+         url(../fonts/TF2Secondary.woff2) format('woff2');
+  }
+  
+  @font-face {
+    font-family: tf2build;
+    src: url(../fonts/TF2Build.woff) format('woff'),
+         url(../fonts/TF2Build.woff2) format('woff2');
+  }
+  
+  body {
+    margin: 0;
+  }
+  
+  .topnav {
+    overflow: hidden;
+    background-color: #333;
+  }
+  
+  .topnav a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+    font-family: tf2;
+  }
+  
+  .topnav a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+  
+  .topnav a.active {
+    background-color: #045faa;
+    color: white;
+  }
+
+  .topnav a.logo {
+    padding: 7px 9px;
+    color: white;
+  }
+
+  .topnav a.logoactive {
+    padding: 7px 9px;
+    background-color: #045faa;
+    color: white;
+  }
+
+  .grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  gap: 10px;
+  background-color: #111111;
+  padding: 10px;
+ }
+
+.grid-container > div {
+  background-color: rgba(255, 255, 255, 0.055);
+  border: 1px solid black;
+  text-align: center;
+  font-size: 30px;
+ }
