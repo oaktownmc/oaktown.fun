@@ -49,26 +49,19 @@ function displayServerData(data, game) {
 
     const cleanServerName = data.serverName?.replace(/�./g, "");
 
-    const numOfBots = data.numBots > 0 ? ` (${data.numBots} bots)` : ""; // only show bots if there are any
+    const numOfBots = data.numBots > 0 ? ` (${data.numBots} bots)` : "";
 
-    // only show the table if there are players
-    const playerListTable = data.humanData.length > 0 ? `
-    <table>
-    <tr>
-        <th>Name</th>
-        <th>Score</th>
-        <th>Time Played</th>
-    </tr>${data.humanData.map(player => {
-        return `<tr><td>${player.name}</td><td>${player.score}</td><td>${convertTime(player.time)}</td></tr>`;
-    }).join("")}` : "";
-
-    // only show button if server isnt full
+    // only show button if server isnt full & server isn't minecraft
     const connectButton = document.createElement("button");
-    connectButton.innerHTML = "Connect";
-    connectButton.onclick = () => {
-        window.open(`steam://connect/${data.serverIP}`);
-    };
-
+    connectButton.textContent = "Connect";
+    if (game !== "minecraft" && data.numHumans < data.maxClients) {
+        connectButton.onclick = () => {
+            window.open(`steam://connect/${data.serverIP}`);
+        };
+    } else {
+        connectButton.disabled = true;
+        connectButton.title = "Connecting is disabled for unsupported games, please connect manually.";
+    }
     serverElement.innerHTML = `
         <h6>${game.toUpperCase()} SERVER</h6>
         <h2>${cleanServerName}</h2>
@@ -77,10 +70,8 @@ function displayServerData(data, game) {
         <p><b>Players:</b> ${data.numHumans}/${data.maxClients} ${numOfBots}</p>
         ${playerListTable}
     `;
+    serverElement.appendChild(connectButton);
 
-    if (data.numHumans < data.maxClients) {
-        serverElement.appendChild(connectButton);
-    }
 
     container.appendChild(serverElement);
 }
