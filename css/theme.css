@@ -87,6 +87,11 @@ h1 {
   font-family: tf2build;
 }
 
+/*
+h1, h2, h3, h4, h5, h6 {
+  text-align: center;
+}
+*/
 
 /* unvisited link */
 a:link {
@@ -96,4 +101,13 @@ a:link {
 /* visited link */
 a:visited {
   color: rgb(0, 82, 0);
+}
+
+.center-div {
+  max-width: fit-content;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+.center-text {
+  text-align: center;
 }
