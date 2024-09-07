@@ -1,195 +1,69 @@
-@font-face {
-    font-family: tf2;
-    src: url(../fonts/TF2.woff) format('woff'),
-         url(../fonts/TF2.woff2) format('woff2');
-  }
-  
-  @font-face {
-    font-family: tf2sec;
-    src: url(../fonts/TF2Secondary.woff) format('woff'),
-         url(../fonts/TF2Secondary.woff2) format('woff2');
-  }
-  
-  @font-face {
-    font-family: tf2build;
-    src: url(../fonts/TF2Build.woff) format('woff'),
-         url(../fonts/TF2Build.woff2) format('woff2');
-  }
-  
-  body {
-    margin: 0;
-    background-color: #222020;
-  }
-  
-  .paddington {
-    padding-left: 800px;
-    padding-right: 800px;
-    padding-bottom: 15px;
-  }
+@import url("/css/fonts.css");
+@import url("/css/topnav.css");
 
-  .topnav {
-    overflow: hidden;
-    background-color: #333;
-    width: 400px;
-    margin-inline: auto;
-    border-radius: 10px;
-  }
-  
-  .topnav a {
-    float: left;
-    color: #f2f2f2;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-size: 17px;
-    font-family: tf2;
-  }
-  
-  .topnav a:hover {
-    background-color: #ddd;
-    color: black;
-  }
-  
-  .topnav a.active {
-    background-color: #045faa;
-    color: white;
-  }
+body {
+  margin: 0;
+  background-color: #222020;
+}
 
-  .topnav a.logo {
-    padding: 7px 9px;
-    color: white;
-  }
+.paddington {
+  padding-left: 800px;
+  padding-right: 800px;
+  padding-bottom: 15px;
+}
 
-  .topnav a.logoactive {
-    padding: 7px 9px;
-    background-color: #045faa;
-    color: white;
-  }
-
-/* .grid-container {
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+  width: 400px;
+  margin-inline: auto;
   border-radius: 10px;
-  display: grid;
-  grid-template-columns: auto;
-  gap: 10px;
-  background-color: #111111;
-  padding: 10px;
- }
+}
 
-.grid-container > div {
-  border-radius: 5px;
-  background-color: rgba(255, 255, 255, 0.055);
-  border: 1px solid black;
+.topnav a {
+  float: left;
+  color: #f2f2f2;
   text-align: center;
-  font-size: 30px;
- } */
-
-.grid-container {
-  display: grid;
-  grid-template-columns: auto auto;
-  background-color: #2195f300;
-  padding: 10px;
-}
-.grid-item-unmargin {
-  background-color: rgba(255, 255, 255, 0);
-  padding: 20px;
-  font-size: 30px;
-  align-items: center; 
-  justify-content: center;
-}
-.grid-item {
-  background-color: rgba(255, 255, 255, 0);
-  padding: 20px;
-  font-size: 30px;
-  align-items: center; 
-  justify-content: center;
-  margin: auto;
-}
-
-button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  background: linear-gradient(0deg, #111111, #1f1f1f);
-  drop-shadow: 0 2px 2px rgba(0,0,0,0.5);
-  color: #e0e0e0;
-  cursor: pointer;
-  transition: 0.3s;
-  float: center;
-  display: inline-block;
-  font-weight: bold;
-  margin: auto;
-  font-family: tf2;
- }
-
-button:hover {
-  background: linear-gradient(0deg, #1f1f1f, #2e2e2e);
-  color: #ffffff;
-}
-
-table {
-  font-family: tf2sec;
-  border-collapse: collapse;
-  width: 100%;
-}
-
-td, th {
-  border: 1px solid #dddddd5b;
-  text-align: center;
-  padding: 8px;
-  font-size: medium;
-}
-
-tr:nth-child(even) {
-  background-color: #dddddd38;
-}
-
-h6 {
-  color: #FFFFFF; 
-  font-family: tf2sec;
-  font-size: 0.5em;
-}
-
-h2 {
-  color: #FFFFFF; 
-  font-family: tf2build;
-  font-size: 1em;
-}
-
-h3 {
-  color: #FFFFFF; 
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
   font-family: tf2;
 }
 
-p {
-  color: #FFFFFF; 
-  font-family: tf2sec;
-  font-size: medium;
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
 }
 
-ul, li {
-  color: #FFFFFF; 
-  font-family: tf2sec;
-  font-size: medium;
+.topnav a.active {
+  background-color: #045faa;
+  color: white;
 }
 
-h1 {
-  color: #FFFFFF; 
-  font-family: tf2build;
+.topnav a.logo {
+  padding: 7px 9px;
+  color: white;
+}
+
+.topnav a.logoactive {
+  padding: 7px 9px;
+  background-color: #045faa;
+  color: white;
 }
 
 .scrolling {
-  height: 50px;	
+  height: 50px;
   overflow: hidden;
   position: relative;
   background: rgb(128, 0, 0);
   color: rgb(255, 255, 255);
   font-family: tf2sec;
- }
- .scrolling b {
+}
+.scrolling b {
   font-family: tf2;
- }
+}
 
- .oakgif {
+.oakgif {
   position: relative;
   z-index: 1;
   right: 100px;
@@ -200,8 +74,61 @@ h1 {
   z-index: 2;
 }
 
- /* unvisited link */
- a:link {
+/* grid */
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto;
+  background-color: #2195f300;
+  padding: 10px;
+}
+.grid-item-unmargin {
+  background-color: rgba(255, 255, 255, 0);
+  padding: 20px;
+  font-size: 30px;
+  align-items: center;
+  justify-content: center;
+}
+.grid-item {
+  background-color: rgba(255, 255, 255, 0);
+  padding: 20px;
+  font-size: 30px;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
+
+/* headers and stuff */
+h6 {
+  color: #FFFFFF;
+  font-family: tf2sec;
+  font-size: 0.5em;
+}
+
+h2 {
+  color: #FFFFFF;
+  font-family: tf2build;
+  font-size: 1em;
+}
+
+h3 {
+  color: #FFFFFF;
+  font-family: tf2;
+}
+
+p, ul, li {
+  color: #FFFFFF;
+  font-family: tf2sec;
+  font-size: medium;
+}
+
+h1 {
+  color: #FFFFFF;
+  font-family: tf2build;
+}
+
+
+/* unvisited link */
+a:link {
   color: green;
 }
 
@@ -209,24 +136,3 @@ h1 {
 a:visited {
   color: rgb(0, 82, 0);
 }
-
-/* mouse over link */
-.topnavbutton:hover {
-  color: rgb(255, 255, 255);
-}
-
- /* unvisited link */
- .topnavbutton:link {
-  color: rgb(255, 255, 255);
-}
-
-/* visited link */
-.topnavbutton:visited {
-  color: rgb(255, 255, 255);
-}
-
-/* mouse over link */
-.topnavbutton:hover {
-  color: rgb(0, 0, 0);
-}
-

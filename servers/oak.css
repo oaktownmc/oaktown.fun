@@ -1,19 +1,4 @@
-
-
-@font-face {
-  font-family: bigFont;
-  src: url(tf2build.ttf);
-}
-
-@font-face {
-  font-family: smallFont;
-  src: url(tf2sec.ttf);
-}
-
-@font-face {
-  font-family: fontFont;
-  src: url(TF2.ttf);
-}
+@import url("/css/fonts.css");
 
 a:link {
   color: green;
@@ -40,18 +25,18 @@ a:active {
 }
 
 h1 {
-  font-family: bigFont;
+  font-family: tf2build;
   letter-spacing: 2px;
 }
 
 .small {
-  font-family: smallFont;
+  font-family: tf2sec;
 }
 
 h2 {
-  font-family: fontFont;
+  font-family: tf2;
 }
 
 .medic {
-  font-family: fontFont;
+  font-family: tf2;
 }

@@ -43,11 +43,11 @@ function convertTime(time) {
 }
 
 function displayServerData(data, game) {
-
+    console.log(game)
     const container = document.getElementById("servers");
     const serverElement = document.createElement("div");
 
-    const cleanServerName = data.serverName?.replace(/�./g, "");
+    const cleanServerName = data.serverName?.replace(/ï¿½./g, "");
 
     const numOfBots = data.numBots > 0 ? ` (${data.numBots} bots)` : "";
 
