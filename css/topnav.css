@@ -1,0 +1,58 @@
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+  width: max-content;
+  margin-inline: auto;
+  border-radius: 10px;
+}
+
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  font-family: tf2;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.active {
+  background-color: #045faa;
+  color: white;
+}
+
+.topnav a.logo {
+  padding: 7px 9px;
+  color: white;
+}
+
+.topnav a.logoactive {
+  padding: 7px 9px;
+  background-color: #045faa;
+  color: white;
+}
+
+/* mouse over link */
+.topnavbutton:hover {
+  color: rgb(255, 255, 255);
+}
+
+/* unvisited link */
+.topnavbutton:link {
+  color: rgb(255, 255, 255);
+}
+
+/* visited link */
+.topnavbutton:visited {
+  color: rgb(255, 255, 255);
+}
+
+/* mouse over link */
+.topnavbutton:hover {
+  color: rgb(0, 0, 0);
+}

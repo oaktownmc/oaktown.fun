@@ -1,0 +1,25 @@
+/* change font to Atkinson Hyperlegible Font (in fonts folder in woff2 format) */
+@font-face {
+  font-family: 'Atkinson Hyperlegible';
+  src: url(/fonts/AtkinsonHyperlegible/Atkinson-Hyperlegible-Regular-102a.woff2) format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: tf2;
+  src: url(/fonts/TF2.woff) format('woff'),
+       url(/fonts/TF2.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: tf2sec;
+  src: url(/fonts/TF2Secondary.woff) format('woff'),
+       url(/fonts/TF2Secondary.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: tf2build;
+  src: url(/fonts/TF2Build.woff) format('woff'),
+       url(/fonts/TF2Build.woff2) format('woff2');
+}

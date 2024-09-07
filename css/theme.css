@@ -1,5 +1,5 @@
-@import url("/css/fonts.css");
-@import url("/css/topnav.css");
+@import url(/css/fonts.css);
+@import url(/css/topnav.css);
 
 body {
   margin: 0;
@@ -12,51 +12,12 @@ body {
   padding-bottom: 15px;
 }
 
-.topnav {
-  overflow: hidden;
-  background-color: #333;
-  width: 400px;
-  margin-inline: auto;
-  border-radius: 10px;
-}
-
-.topnav a {
-  float: left;
-  color: #f2f2f2;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
-  font-family: tf2;
-}
-
-.topnav a:hover {
-  background-color: #ddd;
-  color: black;
-}
-
-.topnav a.active {
-  background-color: #045faa;
-  color: white;
-}
-
-.topnav a.logo {
-  padding: 7px 9px;
-  color: white;
-}
-
-.topnav a.logoactive {
-  padding: 7px 9px;
-  background-color: #045faa;
-  color: white;
-}
-
 .scrolling {
   height: 50px;
   overflow: hidden;
   position: relative;
-  background: rgb(128, 0, 0);
-  color: rgb(255, 255, 255);
+  background: #800000;
+  color: #fff;
   font-family: tf2sec;
 }
 .scrolling b {
@@ -99,30 +60,30 @@ body {
 
 /* headers and stuff */
 h6 {
-  color: #FFFFFF;
+  color: #fff;
   font-family: tf2sec;
   font-size: 0.5em;
 }
 
 h2 {
-  color: #FFFFFF;
+  color: #fff;
   font-family: tf2build;
   font-size: 1em;
 }
 
 h3 {
-  color: #FFFFFF;
+  color: #fff;
   font-family: tf2;
 }
 
 p, ul, li {
-  color: #FFFFFF;
+  color: #fff;
   font-family: tf2sec;
   font-size: medium;
 }
 
 h1 {
-  color: #FFFFFF;
+  color: #fff;
   font-family: tf2build;
 }
 

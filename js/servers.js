@@ -21,6 +21,14 @@ function fetchServerData(server) {
         .catch(error => console.error("Error fetching server data:", error));
 }
 
+function htmlSanitize(str) {
+    let ret = String(str)
+        .replace("&", "&amp;")    
+        .replace("<", "&lt;")
+        .replace(">", "&gt;");
+    return ret
+}
+
 const SECONDS_IN_DAY = 24 * 60 * 60;
 const SECONDS_IN_HOUR = 60 * 60;
 const SECONDS_IN_MINUTE = 60;
@@ -47,32 +55,56 @@ function displayServerData(data, game) {
     const container = document.getElementById("servers");
     const serverElement = document.createElement("div");
 
+    
     const cleanServerName = data.serverName?.replace(/ï¿½./g, "");
-
-    const numOfBots = data.numBots > 0 ? ` (${data.numBots} bots)` : "";
-
+    
+    const stringifiedBots = data.numBots > 0 ? ` (${data.numBots} bots)` : "";
+    
+    const playerMapFunc = player => {
+        return `<tr><td>${player.name}</td><td>${player.score}</td><td>${convertTime(player.time)}</td></tr>`;
+    };
+    
+    const playerListTable = data.numHumans > 0 ? `
+    <table id="playerListTable">
+    <tr>
+    <th>Name</th>
+    <th>Score</th>
+    <th>Time Played</th>
+    </tr>
+    ${data.humanData.map(playerMapFunc).join("")}
+    </table>` : "";
+    
+    serverElement.style.position = "relative";
+    
     // only show button if server isnt full & server isn't minecraft
     const connectButton = document.createElement("button");
     connectButton.textContent = "Connect";
+    connectButton.style.position = 'absolute';
+    connectButton.style.right = '0px';
+    connectButton.style.bottom = '0px';
+    let title = '';
     if (game !== "minecraft" && data.numHumans < data.maxClients) {
+        title = `steam://connect/${data.serverIP}`;
         connectButton.onclick = () => {
-            window.open(`steam://connect/${data.serverIP}`);
+            window.open(title);
         };
     } else {
         connectButton.disabled = true;
-        connectButton.title = "Connecting is disabled for unsupported games, please connect manually.";
+        title = "Connecting is disabled for unsupported games, please connect manually.";
     }
+    connectButton.title = title;
+    
     serverElement.innerHTML = `
-        <h6>${game.toUpperCase()} SERVER</h6>
-        <h2>${cleanServerName}</h2>
-        <p><b>IP:</b> ${data.serverIP}</p>
-        <p><b>Current Map:</b> ${data.currentMap}</p>
-        <p><b>Players:</b> ${data.numHumans}/${data.maxClients} ${numOfBots}</p>
-        ${playerListTable}
+    <h5>${htmlSanitize(game.toUpperCase())} SERVER</h5>
+    <b><h3>${htmlSanitize(cleanServerName)}</h3></b>
+    <p><b>IP:</b> ${htmlSanitize(data.serverIP)}</p>
+    <p><b>Current Map:</b> ${htmlSanitize(data.currentMap)}</p>
+    <p><b>Players:</b> ${htmlSanitize(data.numHumans)}/${htmlSanitize(data.maxClients)} ${htmlSanitize(stringifiedBots)}</p>
+    ${playerListTable}
+    <br><br>
     `;
+    
     serverElement.appendChild(connectButton);
-
-
     container.appendChild(serverElement);
 }
 
