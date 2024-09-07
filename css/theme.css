@@ -108,25 +108,29 @@ stolen from redchanit
 */
 
 #servers {
-	display:flex;
-	justify-content:center;
-	align-items:center;
-	flex-wrap:wrap;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
 }
 
 .server {
-	width:calc(33% - 10px);
-	max-width:320px;
-	height:260px;
-	margin:5px;
-	padding:8px;
-	position:relative;
-	display:inline-flex;
-	flex-direction:column;
-	background:linear-gradient(0deg,#79472a,#81613c);
-	color:#FFFFFF !important;
-	border-radius:10px;
-	font-size:20px;
+	position: relative;
+	width: calc(33% - 10px);
+	height: fit-content;
+	max-width: 320px;
+	
+	margin: 5px;
+	padding: 8px;
+	
+	display: inline-flex;
+	flex-direction: column;
+	
+	background: linear-gradient(0deg, #79472a, #81613c);
+	color: #FFFFFF !important;
+	
+	border-radius: 10px;
+	font-size: 20px;
 	box-sizing: border-box;
 }
 
@@ -136,7 +140,7 @@ stolen from redchanit
 
 @media (max-width:1200px) {
 	.server {
-		width:100% !important;
+		width: 100% !important;
 	}
 }
 
