@@ -18,7 +18,6 @@ async function doServerStatic(img, shouldDrawStatic = () => true) {
     const rotation = Math.random() * (Math.PI / 4) - Math.radians(45 / 2);
     let can = document.createElement("canvas");
     
-    console.log(img);
     let imageRendering = "pixelated";
     
     can.width = WIDTH;
@@ -112,52 +111,52 @@ function checkIfImageExists(url, callback) {
 // list of servers
 const serverList = [
     {
-        "id": "pf2Sandbox",
-        "name": "OAK TOWN | PF2 SANDBOX",
-        "ip": "132.226.51.90:27015",
-        "game": "hl2dm",
-        "overrideGame": "pf2"
+        id: "pf2Sandbox",
+        name: "OAK TOWN | PF2 SANDBOX",
+        ip: "132.226.51.90:27015",
+        game: "hl2dm",
+        overrideGame: "pf2"
     },
     {
-        "id": "teamFortress2",
-        "name": "OAK TOWN | TF2",
-        "ip": "45.20.117.13:49872",
-        "game": "tf2"
+        id: "teamFortress2",
+        name: "OAK TOWN | TF2",
+        ip: "45.20.117.13:49872",
+        game: "tf2"
     },
     {
-        "id": "garrysMod",
-        "name": "OAK TOWN | GARRYS MOD",
-        "ip": "45.20.117.13:28026",
-        "game": "hl2dm",
-        "overrideGame": "gmod"
+        id: "garrysMod",
+        name: "OAK TOWN | GARRYS MOD",
+        ip: "45.20.117.13:28026",
+        game: "hl2dm",
+        overrideGame: "gmod"
     },
     {
-        "id": "minecraftSurvival",
-        "name": "OAK TOWN | SURVIVAL",
-        "ip": "45.20.117.13:25565",
-        "overrideMap": "oaktown",
-        "game": "minecraft"
+        id: "minecraftSurvival",
+        name: "OAK TOWN | SURVIVAL",
+        ip: "45.20.117.13:25565",
+        overrideMap: "oaktown",
+        game: "minecraft"
     },
     {
-        "id": "minecraftAnarchy",
-        "name": "OAK TOWN | ANARCHY",
-        "ip": "45.20.117.13:25566",
-        "overrideMap": "oaktown_anarchy",
-        "game": "minecraft"
+        id: "minecraftAnarchy",
+        name: "OAK TOWN | ANARCHY",
+        ip: "45.20.117.13:25566",
+        overrideMap: "oaktown_anarchy",
+        game: "minecraft"
     },
     {
-        "id": "minecraftCreative",
-        "name": "OAK TOWN | CREATIVE",
-        "ip": "45.20.117.13:25567",
-        "overrideMap": "oaktown_creative",
-        "game": "minecraft"
+        id: "minecraftCreative",
+        name: "OAK TOWN | CREATIVE",
+        ip: "45.20.117.13:25567",
+        overrideMap: "oaktown_creative",
+        game: "minecraft"
     },
     {
-        "id": "minecraftCreate",
-        "name": "OAK TOWN | CREATE MOD",
-        "ip": "45.20.117.13:18754",
-        "overrideMap": "oaktown_create",
-        "game": "minecraft"
+        id: "minecraftCreate",
+        name: "OAK TOWN | CREATE MOD",
+        ip: "45.20.117.13:18754",
+        overrideMap: "oaktown_create",
+        game: "minecraft"
     },
 ];
 
@@ -231,7 +230,7 @@ function listServer(server) {
 	`
     
     let shouldDrawStatic = { value: true };
-
+    
     doServerStatic(serverElement.querySelector("div.serverContent img"), () => shouldDrawStatic.value);
     
     container.appendChild(serverElement);
@@ -239,9 +238,9 @@ function listServer(server) {
     // fetch server data from api
     const url = `https://api.raccoonlagoon.com/v1/server-info?ip=${serverIp}&g=${server.game}`;
     fetch(url)
-        .then(response => response.json())
-        .then(data => displayServerData(data, serverId, serverGame, serverMotd, serverOverrideMap, serverDynmap, shouldDrawStatic))
-        .catch(error => console.error("Error fetching server data:", error));
+    .then(response => response.json())
+    .then(data => displayServerData(data, serverId, serverGame, serverMotd, serverOverrideMap, serverDynmap, shouldDrawStatic))
+    .catch(error => console.error("Error fetching server data:", error));
 }
 
 // display server data once fetched
@@ -291,20 +290,25 @@ function displayServerData(data, serverId, serverGame, serverMotd, serverOverrid
     (() => {
         "use strict";
         const mapElement = serverElement.getElementsByClassName("serverMap")[0];
-
-        const img = new Image();
+        
+        let img = new Image()
         img.src = mapElement.dataset.src;
+        let imageChecked = false;
         
-        checkIfImageExists(mapElement.dataset.src, (exists) => {
-            console.log(exists);
-            shouldDrawStatic.value = !exists;
-            if (exists) {
-                img.onload = () => {
-                    mapElement.classList.remove('asyncImage');
-                    mapElement.src = mapElement.dataset.src;
-                };
-            }
-        });
-        
+        img.onload = () => {
+            const interval = () => {
+                if (!imageChecked)
+                    checkIfImageExists(mapElement.dataset.src, (exists) => {
+                        shouldDrawStatic.value = !exists;
+                        if (exists) {
+                            mapElement.classList.remove('asyncImage');
+                            mapElement.src = mapElement.dataset.src;
+                        }
+                        imageChecked = true;
+                    });
+            };
+            interval();
+            setInterval(interval, 10000);
+        };
     })();
 }
