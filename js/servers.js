@@ -2,10 +2,8 @@
 let overlayImage = new Image();
 overlayImage.src = "/assets/oaktown.png";
 
-const fps = 10;
-const interval = 1000 / fps;
-
 const [WIDTH, HEIGHT] = [720, 480];
+const SCALE_FACTOR = 0.5;
 
 /// Convert from degrees to radians.
 Math.radians = (degrees) => degrees * Math.PI / 180;
@@ -14,20 +12,19 @@ Math.radians = (degrees) => degrees * Math.PI / 180;
 Math.degrees = (radians) => radians * 180 / Math.PI;
 
 // shouldDrawStatic is a function that returns a boolean 
-async function doServerStatic(img, shouldDrawStatic = () => true) {
+function doServerStatic(img, shouldDrawStatic = () => true, canvasCall = (can) => {}) {
     const rotation = Math.random() * (Math.PI / 4) - Math.radians(45 / 2);
     let can = document.createElement("canvas");
-    
-    let imageRendering = "pixelated";
     
     can.width = WIDTH;
     can.height = HEIGHT;
     
-    img.width = WIDTH;
-    img.height = HEIGHT;
+    canvasCall(can);
+
+    //img.width = WIDTH;
+    //img.height = HEIGHT;
     
-    //can.style.imageRendering = imageRendering;
-    //img.style.imageRendering = imageRendering;
+    img.insertAdjacentElement("afterend", can);
     
     let ctx = can.getContext("2d", { alpha: false });       // context without alpha channel.
     let idata = ctx.createImageData(can.width, can.height); // create image data
@@ -38,7 +35,7 @@ async function doServerStatic(img, shouldDrawStatic = () => true) {
     }
     
     // draw a debug crosshair
-    function drawCrossHair(ctx) {
+    function drawCrosshair(ctx) {
         let middleX = can.width / 2;
         let middleY = can.height / 2;
         
@@ -63,30 +60,63 @@ async function doServerStatic(img, shouldDrawStatic = () => true) {
         while(len--) buffer32[len] = Math.random() < 0.5 ? 0 : -1>>0;
         ctx.putImageData(idata, 0, 0);
     }
-    
-    setInterval(() => {
-        if (!shouldDrawStatic()) return;
+
+    function circle(ctx, x, y, radius) {
+        ctx.ellipse(x, y, radius, radius, 0, 0, 2 * Math.PI, false);
+    }
+
+    function frame() {
+        if (!shouldDrawStatic()) {
+            can.style.display = "none";
+            img.style.display = "";
+            return;
+        }
+
+        // Clear the canvas before drawing
+        ctx.clearRect(0, 0, can.width, can.height);    
+        
         noise(ctx);
+
+        // center of canvas
+        let centerX = can.width / 2;
+        let centerY = can.height / 2;
         
-        const scale = 0.5;
+        // scaled size
+        let scaledW = overlayImage.width * SCALE_FACTOR;
+        let scaledH = overlayImage.height * SCALE_FACTOR;
         
-        let imgX = can.width / 2;
-        let imgY = can.height / 2;
-        
-        ctx.translate(imgX, imgY);
-        ctx.rotate(rotation);
-        ctx.translate(-imgX, -imgY);
-        
-        ctx.globalCompositeOperation = "multiply";
-        ctx.filter = "grayscale(100%)";
-        ctx.drawImage(overlayImage, imgX * scale, imgY * scale, can.width * scale, can.height * scale);
-        
-        resetTransform(ctx);
-        
-        //drawCrossHair(ctx);
-        
-        img.src = can.toDataURL();
-    }, interval);
+        // center for drawing the image
+        let imgX = -scaledW / 2;
+        let imgY = -scaledH / 2;
+
+        ctx.save();
+        {
+            ctx.globalCompositeOperation = "multiply";
+            ctx.filter = "grayscale(100%)";
+            
+            ctx.translate(centerX, centerY);
+            ctx.rotate(rotation);
+            
+            ctx.drawImage(
+                overlayImage,
+                
+                imgX,
+                imgY,
+                scaledW,
+                scaledH
+            );
+        }
+        ctx.restore();
+
+        //drawCrosshair(ctx);
+
+        can.style.display = "";
+        img.style.display = "none";
+
+        requestAnimationFrame(frame);
+    }
+    
+    frame();
 }
 
 function checkIfImageExists(url, callback) {
@@ -231,7 +261,13 @@ function listServer(server) {
     
     let shouldDrawStatic = { value: true };
     
-    doServerStatic(serverElement.querySelector("div.serverContent img"), () => shouldDrawStatic.value);
+    doServerStatic(
+        serverElement.querySelector("div.serverContent img"), // element
+        () => shouldDrawStatic.value, // draw static
+        (can) => {
+            can.className = "serverMap";
+        }, // add class
+    );
     
     container.appendChild(serverElement);
     
@@ -245,6 +281,12 @@ function listServer(server) {
 
 // display server data once fetched
 function displayServerData(data, serverId, serverGame, serverMotd, serverOverrideMap, serverDynmap, shouldDrawStatic) {
+    // stupidity!@@#!@#!@#!@#@#!!@#
+    let server = serverList.filter((item) => !!(item.id === serverId))[0] || {}; 
+    if (data.error) {
+        console.warn(`could not fetch data for ${server.game} server ${server.ip}.`);
+        return;
+    }
     // REDCHANIT: regex for quake3
     const serverMap = (serverOverrideMap ? serverOverrideMap : data.currentMap.replace(/^(?<=)game\/mp\/*/, ""));
     const serverElement = document.getElementById(serverId);
@@ -262,6 +304,8 @@ function displayServerData(data, serverId, serverGame, serverMotd, serverOverrid
     
     // server player list
     // only show the table if there are players
+    
+
     const playerListTable = data.humanData.length > 0 ?
     `${data.humanData.map(player => {
         return `${player.name}`;
@@ -291,7 +335,7 @@ function displayServerData(data, serverId, serverGame, serverMotd, serverOverrid
         "use strict";
         const mapElement = serverElement.getElementsByClassName("serverMap")[0];
         
-        let img = new Image()
+        let img = new Image();
         img.src = mapElement.dataset.src;
         let imageChecked = false;
         

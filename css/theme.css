@@ -189,13 +189,16 @@ stolen from redchanit
 	mask-image: linear-gradient(to bottom, rgb(0, 0, 0), rgba(0,0,0,0));
 	object-fit: cover;
 	vertical-align: top;
+	width: 100%;
 }
 
+/*
 @media (max-width:1200px) {
 	.serverMap {
 		width:100%;
 	}
 }
+*/
 
 .gameMode .serverMap {
 	width:100% !important;
