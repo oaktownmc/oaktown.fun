@@ -1,9 +1,3 @@
-// static canvas generator
-let overlayImage = new Image();
-overlayImage.src = "/assets/oaktown.png";
-
-const [WIDTH, HEIGHT] = [720, 480];
-const SCALE_FACTOR = 0.5;
 
 /// Convert from degrees to radians.
 Math.radians = (degrees) => degrees * Math.PI / 180;
@@ -11,15 +5,19 @@ Math.radians = (degrees) => degrees * Math.PI / 180;
 /// Convert from radians to degrees.
 Math.degrees = (radians) => radians * 180 / Math.PI;
 
+// static canvas generator
+let overlayImage = new Image();
+overlayImage.src = "/assets/oaktown.png";
+
+const [WIDTH, HEIGHT] = [480, 270];
+const SCALE_FACTOR = 0.5;
+
 // shouldDrawStatic is a function that returns a boolean 
-function doServerStatic(img, shouldDrawStatic = () => true, canvasCall = (can) => {}) {
+function doServerStatic(img, can, shouldDrawStatic = () => true) {
     const rotation = Math.random() * (Math.PI / 4) - Math.radians(45 / 2);
-    let can = document.createElement("canvas");
     
     can.width = WIDTH;
     can.height = HEIGHT;
-    
-    canvasCall(can);
 
     //img.width = WIDTH;
     //img.height = HEIGHT;
@@ -39,7 +37,7 @@ function doServerStatic(img, shouldDrawStatic = () => true, canvasCall = (can) =
         let middleX = can.width / 2;
         let middleY = can.height / 2;
         
-        ctx.lineWidth = 15;
+        ctx.lineWidth = 5;
         ctx.strokeStyle = "red";
         
         // horizontal
@@ -60,18 +58,19 @@ function doServerStatic(img, shouldDrawStatic = () => true, canvasCall = (can) =
         while(len--) buffer32[len] = Math.random() < 0.5 ? 0 : -1>>0;
         ctx.putImageData(idata, 0, 0);
     }
-
+    
     function circle(ctx, x, y, radius) {
         ctx.ellipse(x, y, radius, radius, 0, 0, 2 * Math.PI, false);
     }
-
+    
     function frame() {
+        requestAnimationFrame(frame);
         if (!shouldDrawStatic()) {
             can.style.display = "none";
             img.style.display = "";
             return;
         }
-
+        
         // Clear the canvas before drawing
         ctx.clearRect(0, 0, can.width, can.height);    
         
@@ -82,8 +81,8 @@ function doServerStatic(img, shouldDrawStatic = () => true, canvasCall = (can) =
         let centerY = can.height / 2;
         
         // scaled size
-        let scaledW = overlayImage.width * SCALE_FACTOR;
-        let scaledH = overlayImage.height * SCALE_FACTOR;
+        let scaledW = overlayImage.width * Math.pow(SCALE_FACTOR, 2);
+        let scaledH = overlayImage.height * Math.pow(SCALE_FACTOR, 2);
         
         // center for drawing the image
         let imgX = -scaledW / 2;
@@ -112,8 +111,6 @@ function doServerStatic(img, shouldDrawStatic = () => true, canvasCall = (can) =
 
         can.style.display = "";
         img.style.display = "none";
-
-        requestAnimationFrame(frame);
     }
     
     frame();
@@ -218,6 +215,28 @@ document.addEventListener('DOMContentLoaded', (event) => {
     serverList.forEach(server => listServer(server));
 });
 
+function serverButton(parent, content, href = "") {
+    let ret = document.createElement("a");
+    ret.classList.add("serverButton", "serverInfo");
+    ret.style.width = "100%";
+    ret.textContent = content;
+    if (!!href) ret.href = href;
+    ret.draggable = false;
+    parent.appendChild(ret);
+}
+
+function setStatusIndicator(element, online) {
+    if (online) {
+        element.src = `${resources}/status/online.png`;
+        element.alt = "[online]";
+        element.title = "This server is online, come on in!";
+    } else {
+        element.src = `${resources}/status/offline.png`;
+        element.alt = "[offline]";
+        element.title = "This server is offline, check back later!";
+    }
+}
+
 // generate dummy server entries
 function listServer(server) {
     // for dummy entry
@@ -238,35 +257,80 @@ function listServer(server) {
     serverElement.id = serverId;
     serverElement.className = "server";
     
-    // populate entry with temp info
-    // REDCHANIT: hide server info button if motd doesn't exist
-    serverElement.innerHTML =
-    `
-		<div class="serverTitle">
-			<img class="serverStatus" src="${resources}/status/offline.png" draggable="false" />
-			<img class="serverGame" src="${resources}/games/${serverGame}.png" onerror="this.onerror=null; this.src='${resources}/games/unknown.png';" draggable="false" />
-			<div>${serverName}</div>
-		</div>
-		
-		<div class="serverContent">
-			<img class="serverMap" src="${resources}/maps/unknown.png" draggable="false" />
-			<div class="serverMapName"><b>Map:</b> ---</div>
-			<div class="serverPlayers"><b>Players:</b> ---</div>
-		</div>
-    
-		<div class="serverButtons">
-			${serverMotd ? `<a href="${serverMotd}" class="serverButton serverInfo" style="width:100%;" draggable="false"><div class="info"></div></a>` : `<a class="serverButton serverInfo" style="width:100%;" draggable="false">...</a>`}
-		</div>
-	`
-    
     let shouldDrawStatic = { value: true };
     
+    // populate entry with temp info
+    // REDCHANIT: hide server info button if motd doesn't exist
+    
+    // server title div
+    
+    let elTitle = document.createElement("div");
+    elTitle.classList.add("serverTitle");
+
+
+    let elStatus = document.createElement("img");
+    elStatus.classList.add("serverStatus");
+    setStatusIndicator(elStatus, false);
+    elStatus.draggable = false;
+    elTitle.appendChild(elStatus);
+
+    let elGame = document.createElement("img");
+    elGame.classList.add("serverGame");
+    elGame.src = `${resources}/games/${serverGame}.png`;
+    elGame.onerror = (event) => {
+        this.onerror = null;
+        this.src = `${resources}/games/unknown.png`;
+    };
+    elGame.draggable = false;
+    elTitle.appendChild(elGame);
+
+    let elTitleText = document.createElement("div");
+    elTitleText.textContent = serverName;
+    elTitle.appendChild(elTitleText);
+
+    // server content
+
+    let elServerContent = document.createElement("div");
+    elServerContent.classList.add("serverContent");
+
+    
+    let elServerThumb = document.createElement("img");
+    elServerThumb.classList.add("serverMap");
+    elServerThumb.draggable = false;
+    elServerContent.appendChild(elServerThumb);
+
+    let elServerCanvas = document.createElement("canvas");
+    elServerCanvas.classList.add("serverMap");
+    elServerContent.appendChild(elServerCanvas);
+
+    let elServerMapName = document.createElement("div");
+    elServerMapName.classList.add("serverMapName");
+    elServerMapName.innerHTML = `<b>Map:</b> <span id="param">---</span>`;
+    elServerContent.appendChild(elServerMapName);
+
+    let elServerPlayers = document.createElement("div");
+    elServerPlayers.classList.add("serverPlayers");
+    elServerPlayers.innerHTML = `<b>Players:</b> <span id="param">---</span>`;
+    elServerContent.appendChild(elServerPlayers);
+    
+    // server buttons
+    let elServerButtons = document.createElement("div");
+    elServerButtons.classList.add("serverButtons");
+
+    serverButton(elServerButtons, "...");
+
+    // append
+
+    serverElement.appendChild(elTitle);
+    serverElement.appendChild(elServerContent);
+    serverElement.appendChild(elServerButtons);
+
+    // static effect
+
     doServerStatic(
-        serverElement.querySelector("div.serverContent img"), // element
+        elServerThumb, // thumbnail
+        elServerCanvas, // canvas
         () => shouldDrawStatic.value, // draw static
-        (can) => {
-            can.className = "serverMap";
-        }, // add class
     );
     
     container.appendChild(serverElement);
@@ -281,8 +345,9 @@ function listServer(server) {
 
 // display server data once fetched
 function displayServerData(data, serverId, serverGame, serverMotd, serverOverrideMap, serverDynmap, shouldDrawStatic) {
-    // stupidity!@@#!@#!@#!@#@#!!@#
-    let server = serverList.filter((item) => !!(item.id === serverId))[0] || {}; 
+    // get default data for server
+    let server = serverList.filter((item) => !!(item.id === serverId))[0];
+
     if (data.error) {
         console.warn(`could not fetch data for ${server.game} server ${server.ip}.`);
         return;
@@ -291,16 +356,17 @@ function displayServerData(data, serverId, serverGame, serverMotd, serverOverrid
     const serverMap = (serverOverrideMap ? serverOverrideMap : data.currentMap.replace(/^(?<=)game\/mp\/*/, ""));
     const serverElement = document.getElementById(serverId);
     const canConnect = steamGames.includes(serverGame);
+
     
     // set updated server info
     // server returned data, so it's online
-    serverElement.getElementsByClassName("serverStatus")[0].src = resources+"/status/online.png";
+    setStatusIndicator(serverElement.querySelector(".serverStatus"), true);
     
-    serverElement.getElementsByClassName("serverStatus")[0].classList.add("asyncImage");
-    serverElement.getElementsByClassName("serverMap")[0].dataset.src = resources+"/maps/"+serverGame+"/"+serverMap+".png";
+    serverElement.querySelector(".serverStatus").classList.add("asyncImage");
+    serverElement.querySelector(".serverMap").dataset.src = resources+"/maps/"+serverGame+"/"+serverMap+".png";
     
-    serverElement.getElementsByClassName("serverMapName")[0].innerHTML = "<b>Map:</b> "+serverMap;
-    serverElement.getElementsByClassName("serverMapName")[0].title = serverMap;
+    serverElement.querySelector(".serverMapName #param").textContent = serverMap;
+    serverElement.querySelector(".serverMapName").title = serverMap;
     
     // server player list
     // only show the table if there are players
@@ -315,25 +381,38 @@ function displayServerData(data, serverId, serverGame, serverMotd, serverOverrid
     const numOfBots = data.numBots > 0 ? ` (${data.numBots} Bots)` : "";
     // player count, hovering when players are online shows a list
     // TODO: title attribute not mobile friendly
-    serverElement.getElementsByClassName("serverPlayers")[0].innerHTML = "<b>Players:</b> "+data.numHumans+"/"+data.maxClients+" "+numOfBots;
-    serverElement.getElementsByClassName("serverPlayers")[0].title = playerListTable;
+    serverElement.querySelector(".serverPlayers #param").textContent = data.numHumans+"/"+data.maxClients+" "+numOfBots;
+    serverElement.querySelector(".serverPlayers").title = playerListTable;
+
     if (data.numHumans > 0) {
-        serverElement.getElementsByClassName("serverPlayers")[0].classList.add("tooltip");
+        serverElement.querySelector(".serverPlayers").classList.add("tooltip");
     }
     
     // server buttons, done a little differently because of how dynamic they can be
     // servers that host a Steam game will replace the copy ip button with a connect button
     // REDCHANIT: hide server info button if motd doesn't exist
-    serverElement.getElementsByClassName("serverButtons")[0].innerHTML =
-    `
-    <a ${canConnect ? `href="steam://connect/${data.serverIP}"` : ""} ${canConnect ? "" : `onclick="navigator.clipboard.writeText('${data.serverIP}');"`} class="serverButton serverConnect" draggable="false">${canConnect ? "Connect" : "Copy IP"}</a>
-    ${serverDynmap ? `<a href="${serverDynmap}" class="serverButton serverDynmap" draggable="false"><div class="dynmap"></div></a>` : ""}
-    ${serverMotd ? `<a href="${serverMotd}" class="serverButton serverInfo" draggable="false"><div class="info"></div></a>` : ""}
-	`;
+    let serverButtons = serverElement.querySelector(".serverButtons");
+    serverButtons.innerHTML = "";
+
+    if (canConnect) {
+        serverButton(serverButtons, "Connect", `steam://connect/${data.serverIP}`);
+    } else {
+        let button = serverButton(serverButtons, "Copy IP");
+        button.onclick = (event) => {
+            navigator.clipboard.writeText(data.serverIP);
+        };
+    }
+
+    if (serverDynmap)
+        serverButton(serverButtons, "View Dynmap", serverDynmap);
+
+    if (serverMotd)
+        serverButton(serverButtons, "View MOTD", serverMotd);
+    
     // asynchronously load map images, not replacing if they can't be found
     (() => {
         "use strict";
-        const mapElement = serverElement.getElementsByClassName("serverMap")[0];
+        const mapElement = serverElement.querySelector(".serverMap");
         
         let img = new Image();
         img.src = mapElement.dataset.src;
