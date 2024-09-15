@@ -223,6 +223,7 @@ function serverButton(parent, content, href = "") {
     if (!!href) ret.href = href;
     ret.draggable = false;
     parent.appendChild(ret);
+    return ret;
 }
 
 function setStatusIndicator(element, online) {
@@ -363,7 +364,7 @@ function displayServerData(data, serverId, serverGame, serverMotd, serverOverrid
     setStatusIndicator(serverElement.querySelector(".serverStatus"), true);
     
     serverElement.querySelector(".serverStatus").classList.add("asyncImage");
-    serverElement.querySelector(".serverMap").dataset.src = resources+"/maps/"+serverGame+"/"+serverMap+".png";
+    serverElement.querySelector(".serverMap").dataset.src = `${resources}/maps/${serverGame}/${serverMap}.png`;
     
     serverElement.querySelector(".serverMapName #param").textContent = serverMap;
     serverElement.querySelector(".serverMapName").title = serverMap;
@@ -381,7 +382,7 @@ function displayServerData(data, serverId, serverGame, serverMotd, serverOverrid
     const numOfBots = data.numBots > 0 ? ` (${data.numBots} Bots)` : "";
     // player count, hovering when players are online shows a list
     // TODO: title attribute not mobile friendly
-    serverElement.querySelector(".serverPlayers #param").textContent = data.numHumans+"/"+data.maxClients+" "+numOfBots;
+    serverElement.querySelector(".serverPlayers #param").textContent = `${data.numHumans}/${data.maxClients}${numOfBots}`;
     serverElement.querySelector(".serverPlayers").title = playerListTable;
 
     if (data.numHumans > 0) {
