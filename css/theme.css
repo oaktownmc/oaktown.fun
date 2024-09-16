@@ -366,6 +366,21 @@ stolen from redchanit
   background-size: 24px;
 }
 
+steam-group {
+  text-align: start;
+  display: block;
+  width: 510px;
+}
+
+@media (max-width: 465px) {
+  steam-group {
+    min-width: unset;
+    width: 350px;
+    min-height: 205px;
+    height: unset;
+  }
+}
+
 
 /* links */
 a {
