@@ -432,6 +432,7 @@ function displayServerData(data, serverId, serverGame, serverMotd, serverOverrid
                 
                 ip
             );
+            return;
         }
         window.navigator.clipboard.writeText(ip);
     };
