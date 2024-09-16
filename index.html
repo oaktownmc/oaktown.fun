@@ -41,35 +41,44 @@
 
 <div class="center-text" style="margin-inline: auto;">
   <h1>WELCOME TO</h1>
-  <img class="oaktext" src="/assets/wordmarktext.png" height="200px" style="left: 70px;" />
-  <img class="oakgif" src="/assets/oakcube.gif" height="130px" style="right: 50px; bottom: 60px;" />
+  <img class="oak-text" src="/assets/wordmarktext.png" height="200px">
+  <img class="oak-cube" src="/assets/oakcube.gif" height="130px">
 
   <p>We are a network of gaming servers that focuses on bringing you the best experience!</p>
-  <h3 style="font-size: x-large;">Only Rule: <span data-darkreader-inline-color="" style="--darkreader-inline-color:#e95849; color:#e74c3c"><strong>No Cheating!!!</strong></span></h3>
+  <h3 style="font-size: x-large;">
+    Only Rule: 
+    <span 
+      data-darkreader-inline-color="" 
+      style="--darkreader-inline-color:#e95849; color:#e74c3c">
+      <strong>No Cheating!!!</strong>
+    </span>
+  </h3>
 
-  <div class="grid-container">
+  <div class="grid-container-unmargin" style="margin: 0;">
     <div class="grid-item">
       <!-- oh my god just fucking align -->
       <h3>Join the Discord!</h3>
-      <discord-widget
-        id="1142534693955317791"
-        width="350px"
-        height="490px"
-        footerText="Join the Oak Town discord today!"
-        color="#5865f2"
-        backgroundColor="#0c0c0d"
-        textColor="#ffffff"
-        statusColor="#858585"></discord-widget>
+      <div class="center-div">
+        <discord-widget
+          id="1142534693955317791"
+          width="350px"
+          height="490px"
+          footerText="Join the Oak Town discord today!"
+          color="#5865f2"
+          backgroundColor="#0c0c0d"
+          textColor="#ffffff"
+          statusColor="#858585"></discord-widget>
+      </div>
     </div>
-    <div class="grid-item-unmargin">
+    <div class="grid-item">
       <h3>Check out our affiliates!</h3>
-      <a href="https://redchanit.xyz" target="_blank"><img src="/assets/redchanit.png" /></a><br>
-      <a href="https://discord.gg/DScZ78thky" target="_blank"><img src="/assets/fedfortress.png" /></a><br>
+      <a href="https://redchanit.xyz" target="_blank"><img src="/assets/redchanit.png" width="300px" /></a><br>
+      <a href="https://discord.gg/DScZ78thky" target="_blank"><img src="/assets/fedfortress.png" width="300px" /></a><br>
 
       <h3>Join our Steam Group!</h3>
-      <p style="text-align: start">
-        <steam-group group="oak-town"></steam-group>
-      </p>
+      <div class="center-div">
+        <steam-group style="text-align: start;display: block;width:555px;" group="oak-town"></steam-group>
+      </div>
     </div>
   </div>
 

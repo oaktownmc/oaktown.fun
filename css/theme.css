@@ -2,22 +2,23 @@
 @import url(/css/topnav.css);
 
 :root {
-	--text-shadow: 1px 1px #000000, 2px 2px #000000;
+	--text-shadow: 1px 1px #000, 2px 2px #000;
 	--server-button-height: 38px;
 	--server-button-padding: 8px 24px;
 	--server-button-margin: 0 2px 0 2px;
+  --scrolling-container-height: 50px;
 }
 
 body {
   margin: 0;
   background-image: url(/assets/darkoak.png);
+  overflow-x: hidden;
 }
 
 /* scrolling text */
 .scrolling {
-  --container-height: 50px;
-  height: var(--container-height);
-  line-height: var(--container-height);
+  height: var(--scrolling-container-height);
+  line-height: var(--scrolling-container-height);
   text-align: center;
 
   overflow: hidden;
@@ -34,35 +35,43 @@ body {
   padding: 0;
 }
 
-.oakgif {
-  position: relative;
-  z-index: 1;
-  right: 100px;
-}
-
-.oaktext {
+/* big logo */
+.oak-text {
   position: relative;
   z-index: 2;
+  left: 70px;
+}
+
+.oak-cube {
+  position: relative;
+  z-index: 1;
+  right: 50px;
+  bottom: 60px;
+}
+
+@media (max-width: 446px) {
+  /* must make a sacrifice */
+  .oak-text {
+    left: unset;
+  }
+  .oak-cube {
+    display: none;
+  }
 }
 
 /* grid */
 .grid-container {
   display: grid;
   grid-template-columns: auto auto;
-  background-color: #2195f300;
   padding: 10px;
 }
 .grid-item-unmargin {
-  background-color: rgba(255, 255, 255, 0);
   padding: 20px;
-  font-size: 30px;
   align-items: center;
   justify-content: center;
 }
 .grid-item {
-  background-color: rgba(255, 255, 255, 0);
   padding: 20px;
-  font-size: 30px;
   align-items: center;
   justify-content: center;
   margin: auto;
@@ -120,19 +129,22 @@ stolen from redchanit
 */
 
 #servers {
-  display: flex;
+  /*display: flex;*/
+  display: grid;
+  grid-template-columns: auto auto;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
+  /*flex-wrap: wrap;*/
 }
 
+
 .server {
+  --margin: 5px;
   position: relative;
-  width: calc(33% - 10px);
-  height: fit-content;
+  height: 290px;
   max-width: 320px;
 
-  margin: 5px;
+  margin: var(--margin);
   padding: 8px;
 
   display: inline-flex;
@@ -152,6 +164,25 @@ stolen from redchanit
 
 .server b {
   text-decoration: unset;
+}
+
+@media (max-width: 465px) {
+  #servers {
+    grid-template-columns: 1fr;
+  }
+
+  .server {
+    /* center */
+    max-width: fit-content;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
+@media (max-width: 501px) {
+  .server {
+    width: calc(100% - var(--margin) * 2);
+  }
 }
 
 .gameMode .server {
@@ -234,31 +265,38 @@ stolen from redchanit
 
 .serverButton {
   display: inline-block;
+  
   outline: 0;
   border: 0;
+
   cursor: pointer;
-  font-weight: 600;
-  color: #fff;
-  font-size: 14px;
+  
   height: var(--server-button-height);
   padding: var(--server-button-padding);
 	margin: var(--server-button-margin);
+  
   border-radius: 50px;
   background-image: linear-gradient(0deg, #612400, #9c5f3c);
+  
   box-shadow: 0 4px 11px 0 rgb(37 44 97 / 15%),
-    0 1px 3px 0 rgb(93 100 148 / 20%);
+  0 1px 3px 0 rgb(93 100 148 / 20%);
+  
   transition: all 0.2s ease-out;
-  :hover {
-    box-shadow: 0 8px 22px 0 rgb(37 44 97 / 15%),
-      0 4px 6px 0 rgb(93 100 148 / 20%);
-  }
+  
   font-family: tf2;
   font-size: large;
+  font-weight: 600;
+  color: #fff;
+  
   text-shadow: var(--text-shadow);
 	text-decoration: none;
+
+  user-select: none;
 }
 
 .serverButton:hover {
+  box-shadow: 0 8px 22px 0 rgb(37 44 97 / 15%),
+    0 4px 6px 0 rgb(93 100 148 / 20%);
 	text-shadow: 0px 0px 5px currentColor;
 }
 
@@ -279,10 +317,12 @@ stolen from redchanit
 .serverStatusText {
 	font-family: tf2;
 	text-shadow: var(--text-shadow);
+
+	height: var(--server-button-height);
 	padding: var(--server-button-padding);
 	margin: var(--server-button-margin);
-	height: var(--server-button-height);
-	text-align: center;
+	
+  text-align: center;
 	width: 100%;
 }
 
