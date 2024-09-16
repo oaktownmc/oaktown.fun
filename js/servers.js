@@ -216,12 +216,31 @@ document.addEventListener('DOMContentLoaded', (event) => {
 });
 
 function serverButton(parent, content, href = "") {
-    let ret = document.createElement("a");
+    let ret = document.createElement("button");
     ret.classList.add("serverButton", "serverInfo");
     ret.style.width = "100%";
     ret.textContent = content;
-    if (!!href) ret.href = href;
     ret.draggable = false;
+    
+    let isEmpty = !(href.trim());
+
+    if (!isEmpty) {
+        console.log(ret);
+        // since we switched from 'a' to 'button', we can't use href
+        ret.onclick = (event) => {
+            window.location.href = href;
+        };
+    }
+
+    parent.appendChild(ret);
+    return ret;
+}
+
+function serverStatusText(parent, content) {
+    let ret = document.createElement("span");
+    ret.classList.add("serverStatusText");
+    ret.textContent = content;
+
     parent.appendChild(ret);
     return ret;
 }
@@ -318,7 +337,7 @@ function listServer(server) {
     let elServerButtons = document.createElement("div");
     elServerButtons.classList.add("serverButtons");
 
-    serverButton(elServerButtons, "...");
+    serverStatusText(elServerButtons, "Loading...");
 
     // append
 
@@ -348,14 +367,17 @@ function listServer(server) {
 function displayServerData(data, serverId, serverGame, serverMotd, serverOverrideMap, serverDynmap, shouldDrawStatic) {
     // get default data for server
     let server = serverList.filter((item) => !!(item.id === serverId))[0];
+    const serverElement = document.getElementById(serverId);
+    let serverButtons = serverElement.querySelector(".serverButtons");
 
     if (data.error) {
         console.warn(`could not fetch data for ${server.game} server ${server.ip}.`);
+        serverButtons.innerHTML = "";
+        serverStatusText(serverButtons, "Could not reach server!");
         return;
     }
     // REDCHANIT: regex for quake3
     const serverMap = (serverOverrideMap ? serverOverrideMap : data.currentMap.replace(/^(?<=)game\/mp\/*/, ""));
-    const serverElement = document.getElementById(serverId);
     const canConnect = steamGames.includes(serverGame);
 
     
@@ -392,17 +414,27 @@ function displayServerData(data, serverId, serverGame, serverMotd, serverOverrid
     // server buttons, done a little differently because of how dynamic they can be
     // servers that host a Steam game will replace the copy ip button with a connect button
     // REDCHANIT: hide server info button if motd doesn't exist
-    let serverButtons = serverElement.querySelector(".serverButtons");
     serverButtons.innerHTML = "";
 
-    if (canConnect) {
+    // connect button
+    if (canConnect)
         serverButton(serverButtons, "Connect", `steam://connect/${data.serverIP}`);
-    } else {
-        let button = serverButton(serverButtons, "Copy IP");
-        button.onclick = (event) => {
-            navigator.clipboard.writeText(data.serverIP);
-        };
-    }
+
+    // copy ip button
+    let copyButton = serverButton(serverButtons, "Copy IP");
+    copyButton.onclick = (event) => {
+        let ip = data.serverIP;
+        if (!window.navigator.clipboard) {
+            window.prompt(
+                "Because Javascript is stupid, it does not allow the website " +
+                "to copy text if you are on an insecure origin, so please copy " +
+                "the text below.",
+                
+                ip
+            );
+        }
+        window.navigator.clipboard.writeText(ip);
+    };
 
     if (serverDynmap)
         serverButton(serverButtons, "View Dynmap", serverDynmap);
