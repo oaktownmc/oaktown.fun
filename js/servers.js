@@ -145,46 +145,98 @@ const serverList = [
         overrideGame: "pf2"
     },
     {
+        id: "pf2normal",
+        name: "OAK TOWN | CUSTOM MAP AND SHIT | NOT SANDBOX",
+        ip: "47.203.175.231:8081",
+        game: "hl2dm",
+        overrideGame: "pf2"
+    },
+    {
         id: "teamFortress2",
         name: "OAK TOWN | TF2",
-        ip: "45.20.117.13:49872",
+        ip: "47.203.175.231:27015",
         game: "tf2"
+    },
+    {
+        id: "openFortress",
+        name: "OAK TOWN | OPEN FORTRESS",
+        ip: "47.203.175.231:28465",
+        game: "hl2dm",
+        overrideGame: "of"
     },
     {
         id: "garrysMod",
         name: "OAK TOWN | GARRYS MOD",
-        ip: "45.20.117.13:28026",
+        ip: "47.203.175.231:27312",
         game: "hl2dm",
         overrideGame: "gmod"
     },
     {
+        id: "counterStrike",
+        name: "OAK TOWN | CSS",
+        ip: "47.203.175.231:27016",
+        game: "hl2dm",
+        overrideGame: "css"
+    },
+    /*
+    {
+        id: "halo",
+        name: "OAK TOWN | Halo Custom Edition",
+        ip: "47.203.175.231:2302",
+        game: "halo",
+        overrideGame: "halo"
+    },*/
+    {
         id: "minecraftSurvival",
         name: "OAK TOWN | SURVIVAL",
-        ip: "45.20.117.13:25565",
+        ip: "47.203.175.231:25572",
         overrideMap: "oaktown",
         game: "minecraft"
     },
     {
+        id: "cod4x",
+        name: "OAK TOWN | S & D",
+        ip: "47.203.175.231:2303",
+        game: "cod4"
+    },
+    /*
+    {
         id: "minecraftAnarchy",
         name: "OAK TOWN | ANARCHY",
-        ip: "45.20.117.13:25566",
+        ip: "47.203.175.231:25565",
         overrideMap: "oaktown_anarchy",
         game: "minecraft"
-    },
+    },*/
     {
         id: "minecraftCreative",
         name: "OAK TOWN | CREATIVE",
-        ip: "45.20.117.13:25567",
+        ip: "47.203.175.231:25124",
         overrideMap: "oaktown_creative",
         game: "minecraft"
     },
+    /*
     {
         id: "minecraftCreate",
         name: "OAK TOWN | CREATE MOD",
         ip: "45.20.117.13:18754",
         overrideMap: "oaktown_create",
         game: "minecraft"
+    },*/
+    {
+        id: "gtaIVConnected",
+        name: 'OAK TOWN | GTA IV CONNECTED',
+        ip: "47.203.175.231:22000",
+        overrideMap: "liberty_city",
+        game: "gtaiv"
     },
+    {
+        id: "sm64CoopDx",
+        name: "OAK TOWN | SM64COOPDX",
+        ip: "47.203.175.231:7777",
+        overrideMap: "mushroom_kingdom",
+        game: "sm64"
+    },
+  
 ];
 
 // list of Steam games
@@ -356,11 +408,35 @@ function listServer(server) {
     container.appendChild(serverElement);
     
     // fetch server data from api
-    const url = `https://api.raccoonlagoon.com/v1/server-info?ip=${serverIp}&g=${server.game}`;
-    fetch(url)
-    .then(response => response.json())
-    .then(data => displayServerData(data, serverId, serverGame, serverMotd, serverOverrideMap, serverDynmap, shouldDrawStatic))
-    .catch(error => console.error("Error fetching server data:", error));
+	if (server.game === 'sm64' || server.game === 'gtaiv') {
+        // Generate fake data with game-specific values
+        const fakeData = {
+            error: null,
+            currentMap: server.game === 'gtaiv' ? 'liberty_city' : 'mushroom_kingdom',
+            numHumans: 0, // Show 0 players
+            maxClients: server.game === 'gtaiv' ? 32 : 16, // Set player limit
+            numBots: 0,
+            serverIP: server.ip,
+            humanData: []
+        };
+        
+        displayServerData(
+            fakeData,
+            server.id,
+            serverGame,
+            serverMotd,
+            server.overrideMap,
+            server.dynmap,
+            shouldDrawStatic
+        );
+    } else {
+        // Proceed with API fetch for other games
+        const url = `https://api.raccoonlagoon.com/v1/server-info?ip=${server.ip}&g=${server.game}`;
+        fetch(url)
+            .then(response => response.json())
+            .then(data => displayServerData(data, server.id, serverGame, serverMotd, server.overrideMap, server.dynmap, shouldDrawStatic))
+            .catch(error => console.error("Error fetching server data:", error));
+    }
 }
 
 // display server data once fetched
@@ -404,11 +480,23 @@ function displayServerData(data, serverId, serverGame, serverMotd, serverOverrid
     const numOfBots = data.numBots > 0 ? ` (${data.numBots} Bots)` : "";
     // player count, hovering when players are online shows a list
     // TODO: title attribute not mobile friendly
-    serverElement.querySelector(".serverPlayers #param").textContent = `${data.numHumans}/${data.maxClients}${numOfBots}`;
-    serverElement.querySelector(".serverPlayers").title = playerListTable;
+    const playerElement = serverElement.querySelector(".serverPlayers #param");
+    const playersContainer = serverElement.querySelector(".serverPlayers");
 
-    if (data.numHumans > 0) {
-        serverElement.querySelector(".serverPlayers").classList.add("tooltip");
+    if (serverGame === 'sm64' || serverGame === 'gtaiv') {
+        // Show player limit instead of player count
+        playerElement.textContent = `?/${data.maxClients}`;
+        playersContainer.title = ""; // Remove tooltip
+        playersContainer.classList.remove("tooltip");
+    } else {
+        // Original player count display
+        const numOfBots = data.numBots > 0 ? ` (${data.numBots} Bots)` : "";
+        playerElement.textContent = `${data.numHumans}/${data.maxClients}${numOfBots}`;
+        playersContainer.title = playerListTable;
+        
+        if (data.numHumans > 0) {
+            playersContainer.classList.add("tooltip");
+        }
     }
     
     // server buttons, done a little differently because of how dynamic they can be
