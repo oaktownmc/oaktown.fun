@@ -140,7 +140,7 @@ const serverList = [
     {
         id: "pf2Sandbox",
         name: "OAK TOWN | PF2 SANDBOX",
-        ip: "132.226.51.90:27015",
+        ip: "47.203.175.231:27253",
         game: "hl2dm",
         overrideGame: "pf2"
     },
