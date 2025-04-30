@@ -172,7 +172,7 @@ const serverList = [
         overrideGame: "gmod"
     },
     {
-        id: "garrysMod",
+        id: "garrysModjazz",
         name: "OAK TOWN | JAZZSTRONAUTS",
         ip: "45.20.117.13:27015",
         game: "hl2dm",
