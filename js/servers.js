@@ -172,6 +172,13 @@ const serverList = [
         overrideGame: "gmod"
     },
     {
+        id: "garrysMod",
+        name: "OAK TOWN | JAZZSTRONAUTS",
+        ip: "45.20.117.13:27015",
+        game: "hl2dm",
+        overrideGame: "gmod"
+    },
+    {
         id: "counterStrike",
         name: "OAK TOWN | CSS",
         ip: "47.203.175.231:27016",
@@ -198,6 +205,12 @@ const serverList = [
         name: "OAK TOWN | S & D",
         ip: "47.203.175.231:2303",
         game: "cod4"
+    },
+    {
+        id: "tf2rf",
+        name: "OAK TOWN | Risk Fortress @",
+        ip: "47.203.175.231:20004",
+        game: "tf2"
     },
     /*
     {
