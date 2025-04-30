@@ -208,8 +208,8 @@ const serverList = [
     },
     {
         id: "tf2rf",
-        name: "OAK TOWN | Risk Fortress @",
-        ip: "47.203.175.231:20004",
+        name: "OAK TOWN | Risk Fortress 2",
+        ip: "47.203.175.231:20024",
         game: "tf2"
     },
     /*
