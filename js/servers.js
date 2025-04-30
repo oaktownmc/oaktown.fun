@@ -152,6 +152,12 @@ const serverList = [
         overrideGame: "pf2"
     },
     {
+        id: "tf2rf",
+        name: "OAK TOWN | Risk Fortress 2",
+        ip: "47.203.175.231:20024",
+        game: "tf2"
+    },
+    {
         id: "teamFortress2",
         name: "OAK TOWN | TF2",
         ip: "47.203.175.231:27015",
@@ -205,12 +211,6 @@ const serverList = [
         name: "OAK TOWN | S & D",
         ip: "47.203.175.231:2303",
         game: "cod4"
-    },
-    {
-        id: "tf2rf",
-        name: "OAK TOWN | Risk Fortress 2",
-        ip: "47.203.175.231:20024",
-        game: "tf2"
     },
     /*
     {
