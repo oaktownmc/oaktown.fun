@@ -206,12 +206,14 @@ const serverList = [
         overrideMap: "oaktown",
         game: "minecraft"
     },
+    /*
     {
         id: "cod4x",
         name: "OAK TOWN | S & D",
         ip: "47.203.175.231:2303",
         game: "cod4"
     },
+    */ 
     /*
     {
         id: "minecraftAnarchy",
@@ -235,6 +237,7 @@ const serverList = [
         overrideMap: "oaktown_create",
         game: "minecraft"
     },*/
+    /*
     {
         id: "gtaIVConnected",
         name: 'OAK TOWN | GTA IV CONNECTED',
@@ -242,6 +245,8 @@ const serverList = [
         overrideMap: "liberty_city",
         game: "gtaiv"
     },
+    */
+    /*
     {
         id: "sm64CoopDx",
         name: "OAK TOWN | SM64COOPDX",
@@ -249,6 +254,7 @@ const serverList = [
         overrideMap: "mushroom_kingdom",
         game: "sm64"
     },
+    */
   
 ];
 
