@@ -140,40 +140,40 @@ const serverList = [
     {
         id: "pf2Sandbox",
         name: "OAK TOWN | PF2 SANDBOX",
-        ip: "47.203.175.231:27253",
+        ip: "play.oaktown.cc:27253",
         game: "hl2dm",
         overrideGame: "pf2"
     },
     {
         id: "pf2normal",
         name: "OAK TOWN | CUSTOM MAP AND SHIT | NOT SANDBOX",
-        ip: "47.203.175.231:8081",
+        ip: "play.oaktown.cc:8081",
         game: "hl2dm",
         overrideGame: "pf2"
     },
     {
         id: "tf2rf",
         name: "OAK TOWN | Risk Fortress 2",
-        ip: "47.203.175.231:20024",
+        ip: "play.oaktown.cc:20024",
         game: "tf2"
     },
     {
         id: "teamFortress2",
         name: "OAK TOWN | TF2",
-        ip: "47.203.175.231:27015",
+        ip: "play.oaktown.cc:27015",
         game: "tf2"
     },
     {
         id: "openFortress",
         name: "OAK TOWN | OPEN FORTRESS",
-        ip: "47.203.175.231:28465",
+        ip: "play.oaktown.cc:28465",
         game: "hl2dm",
         overrideGame: "of"
     },
     {
         id: "garrysMod",
         name: "OAK TOWN | GARRYS MOD",
-        ip: "47.203.175.231:27312",
+        ip: "play.oaktown.cc:27312",
         game: "hl2dm",
         overrideGame: "gmod"
     },
@@ -187,7 +187,7 @@ const serverList = [
     {
         id: "counterStrike",
         name: "OAK TOWN | CSS",
-        ip: "47.203.175.231:27016",
+        ip: "play.oaktown.cc:27016",
         game: "hl2dm",
         overrideGame: "css"
     },
@@ -195,14 +195,14 @@ const serverList = [
     {
         id: "halo",
         name: "OAK TOWN | Halo Custom Edition",
-        ip: "47.203.175.231:2302",
+        ip: "play.oaktown.cc:2302",
         game: "halo",
         overrideGame: "halo"
     },*/
     {
         id: "minecraftSurvival",
         name: "OAK TOWN | SURVIVAL",
-        ip: "47.203.175.231:25572",
+        ip: "play.oaktown.cc:25572",
         overrideMap: "oaktown",
         game: "minecraft"
     },
@@ -210,7 +210,7 @@ const serverList = [
     {
         id: "cod4x",
         name: "OAK TOWN | S & D",
-        ip: "47.203.175.231:2303",
+        ip: "play.oaktown.cc:2303",
         game: "cod4"
     },
     */ 
@@ -218,14 +218,14 @@ const serverList = [
     {
         id: "minecraftAnarchy",
         name: "OAK TOWN | ANARCHY",
-        ip: "47.203.175.231:25565",
+        ip: "play.oaktown.cc:25565",
         overrideMap: "oaktown_anarchy",
         game: "minecraft"
     },*/
     {
         id: "minecraftCreative",
         name: "OAK TOWN | CREATIVE",
-        ip: "47.203.175.231:25124",
+        ip: "play.oaktown.cc:25124",
         overrideMap: "oaktown_creative",
         game: "minecraft"
     },
@@ -241,7 +241,7 @@ const serverList = [
     {
         id: "gtaIVConnected",
         name: 'OAK TOWN | GTA IV CONNECTED',
-        ip: "47.203.175.231:22000",
+        ip: "play.oaktown.cc:22000",
         overrideMap: "liberty_city",
         game: "gtaiv"
     },
@@ -250,7 +250,7 @@ const serverList = [
     {
         id: "sm64CoopDx",
         name: "OAK TOWN | SM64COOPDX",
-        ip: "47.203.175.231:7777",
+        ip: "play.oaktown.cc:7777",
         overrideMap: "mushroom_kingdom",
         game: "sm64"
     },
