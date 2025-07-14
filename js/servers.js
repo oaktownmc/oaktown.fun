@@ -172,7 +172,7 @@ const serverList = [
     },
     {
         id: "garrysMod",
-        name: "OAK TOWN | GARRYS MOD",
+        name: "OAK TOWN | LAMBDA HL2 COOP",
         ip: "play.oaktown.cc:27312",
         game: "hl2dm",
         overrideGame: "gmod"
