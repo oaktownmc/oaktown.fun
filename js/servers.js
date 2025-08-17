@@ -171,11 +171,11 @@ const serverList = [
         overrideGame: "of"
     },
     {
-        id: "garrysMod",
-        name: "OAK TOWN | LAMBDA HL2 COOP",
+        id: "lfe",
+        name: "OAK TOWN | LAMBDA FORTRESS EXTENDED",
         ip: "play.oaktown.cc:27312",
         game: "hl2dm",
-        overrideGame: "gmod"
+        overrideGame: "lfe"
     },
     {
         id: "garrysModjazz",
@@ -223,8 +223,8 @@ const serverList = [
         game: "minecraft"
     },*/
     {
-        id: "minecraftCreative",
-        name: "OAK TOWN | CREATIVE",
+        id: "minecraftAnarchy",
+        name: "OAK TOWN | ANARCHY",
         ip: "play.oaktown.cc:25124",
         overrideMap: "oaktown_creative",
         game: "minecraft"
