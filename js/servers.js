@@ -203,7 +203,7 @@ const serverList = [
         id: "minecraftSurvival",
         name: "OAK TOWN | SURVIVAL",
         ip: "play.oaktown.cc:25572",
-        overrideMap: "oaktown",
+        overrideMap: "NM_world",
         game: "minecraft"
     },
     /*
